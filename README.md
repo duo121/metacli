@@ -18,7 +18,7 @@ When an AI CLI grows past a single script, three problems show up fast:
 
 ```mermaid
 flowchart TD
-  app["Application CLI: weixin-agent and future AI tools"] --> codex["codex-runtime"]
+  app["Application CLI"] --> codex["codex-runtime"]
   app --> runtime["terminal-runtime"]
   codex --> runtime
   runtime --> darwin["provider-darwin"]
@@ -131,5 +131,5 @@ await runtime.sendText(target, "codex", { newline: true });
 | Doc | Purpose |
 | --- | --- |
 | [`docs/architecture.md`](./docs/architecture.md) | Package boundaries and ownership |
-| [`docs/migration-termhub.md`](./docs/migration-termhub.md) | How `termhub` maps into `metacli` |
-| [`docs/migration-weixin-agent.md`](./docs/migration-weixin-agent.md) | How `weixin-agent` consumes `metacli` |
+| [`docs/module-map.md`](./docs/module-map.md) | How legacy terminal concerns map into `metacli` modules |
+| [`docs/integration-guide.md`](./docs/integration-guide.md) | How to consume `metacli` from an application CLI |

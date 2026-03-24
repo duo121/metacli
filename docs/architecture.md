@@ -13,10 +13,10 @@ Shared error and JSON helpers.
 Provider registry, snapshot merge, target resolution, and runtime orchestration.
 
 3. `@duo121/metacli/provider-darwin`
-macOS terminal providers extracted from `termhub`.
+macOS terminal providers for Apple Terminal and iTerm2 automation.
 
 4. `@duo121/metacli/provider-win32`
-Windows terminal providers extracted from `termhub`.
+Windows terminal providers for Windows Terminal and Command Prompt automation.
 
 5. `@duo121/metacli/codex-runtime`
 Codex-session helpers on top of terminal runtime.
@@ -29,5 +29,4 @@ Business command tree, prompts, workflows, persistence, and domain adapters.
 - Put platform automation in `metacli`.
 - Put Codex session control primitives in `metacli`.
 - Keep product semantics out of `metacli`.
-- Treat `termhub` as an example application, not a base dependency.
-- Let `weixin-agent` depend on `metacli` primitives instead of `termhub`.
+- Keep application command trees, routing, persistence, and prompt policy outside `metacli`.

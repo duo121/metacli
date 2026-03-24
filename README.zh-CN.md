@@ -18,7 +18,7 @@
 
 ```mermaid
 flowchart TD
-  app["应用 CLI：weixin-agent 与未来 AI 工具"] --> codex["codex-runtime"]
+  app["应用 CLI"] --> codex["codex-runtime"]
   app --> runtime["terminal-runtime"]
   codex --> runtime
   runtime --> darwin["provider-darwin"]
@@ -131,5 +131,5 @@ await runtime.sendText(target, "codex", { newline: true });
 | 文档 | 作用 |
 | --- | --- |
 | [`docs/architecture.md`](./docs/architecture.md) | 包边界与职责划分 |
-| [`docs/migration-termhub.md`](./docs/migration-termhub.md) | `termhub` 到 `metacli` 的抽取映射 |
-| [`docs/migration-weixin-agent.md`](./docs/migration-weixin-agent.md) | `weixin-agent` 如何接入 `metacli` |
+| [`docs/module-map.md`](./docs/module-map.md) | 传统终端能力如何映射到 `metacli` 模块 |
+| [`docs/integration-guide.md`](./docs/integration-guide.md) | 应用 CLI 如何接入 `metacli` |
