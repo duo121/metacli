@@ -1,0 +1,35 @@
+{
+  "name": "@duo121/metacli-core",
+  "version": "0.1.0",
+  "description": "Core JSON, error, CLI spec, and doctor helpers for AI-native command-line tools.",
+  "type": "module",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duo121/metacli.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/duo121/metacli#readme",
+  "bugs": {
+    "url": "https://github.com/duo121/metacli/issues"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "json",
+    "spec",
+    "doctor"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  }
+}

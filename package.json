@@ -1,0 +1,17 @@
+{
+  "name": "metacli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "smoke:imports": "node ./scripts/smoke-imports.mjs",
+    "test": "npm run smoke:imports",
+    "pack:check": "node ./scripts/pack-check.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

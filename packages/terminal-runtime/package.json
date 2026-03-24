@@ -1,0 +1,38 @@
+{
+  "name": "@duo121/metacli-terminal-runtime",
+  "version": "0.1.0",
+  "description": "Provider registry, snapshots, resolution, and runtime orchestration for AI-native terminal tooling.",
+  "type": "module",
+  "dependencies": {
+    "@duo121/metacli-core": "^0.1.0"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duo121/metacli.git",
+    "directory": "packages/terminal-runtime"
+  },
+  "homepage": "https://github.com/duo121/metacli#readme",
+  "bugs": {
+    "url": "https://github.com/duo121/metacli/issues"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "terminal",
+    "runtime",
+    "automation"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  }
+}
