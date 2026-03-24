@@ -18,24 +18,46 @@ When an AI CLI grows past a single script, three problems show up fast:
 
 ```mermaid
 flowchart TD
-  A[Application CLI<br/>weixin-agent / future AI tools] --> B[@duo121/metacli-codex-runtime]
-  A --> C[@duo121/metacli-terminal-runtime]
+  A["Application CLI<br/>weixin-agent / future AI tools"] --> B["codex-runtime"]
+  A --> C["terminal-runtime"]
   B --> C
-  C --> D[@duo121/metacli-provider-darwin]
-  C --> E[@duo121/metacli-provider-win32]
-  C --> F[@duo121/metacli-core]
+  C --> D["provider-darwin"]
+  C --> E["provider-win32"]
+  C --> F["core"]
 ```
 
-## Package Layout
+## Module Layout
 
-| Package | Purpose | Publish name |
+| Source module | Purpose | Import path |
 | --- | --- | --- |
-| `packages/core` | JSON helpers, error model, CLI spec and doctor helpers | `@duo121/metacli-core` |
-| `packages/terminal-runtime` | Provider registry, snapshots, target resolution, runtime orchestration | `@duo121/metacli-terminal-runtime` |
-| `packages/provider-darwin` | Apple Terminal and iTerm2 automation | `@duo121/metacli-provider-darwin` |
-| `packages/provider-win32` | Windows Terminal and Command Prompt automation | `@duo121/metacli-provider-win32` |
-| `packages/codex-runtime` | Codex session attach / launch / prompt / capture helpers | `@duo121/metacli-codex-runtime` |
-| `packages/create-metacli` | Starter manifest today, scaffold entrypoint later | `@duo121/create-metacli` |
+| `packages/core` | JSON helpers, error model, CLI spec and doctor helpers | `@duo121/metacli/core` |
+| `packages/terminal-runtime` | Provider registry, snapshots, target resolution, runtime orchestration | `@duo121/metacli/terminal-runtime` |
+| `packages/provider-darwin` | Apple Terminal and iTerm2 automation | `@duo121/metacli/provider-darwin` |
+| `packages/provider-win32` | Windows Terminal and Command Prompt automation | `@duo121/metacli/provider-win32` |
+| `packages/codex-runtime` | Codex session attach / launch / prompt / capture helpers | `@duo121/metacli/codex-runtime` |
+| `packages/create-metacli` | Starter manifest today, scaffold entrypoint later | `@duo121/metacli/create-metacli` |
+
+## Why `terminal-runtime` Exists
+
+`@duo121/metacli/terminal-runtime` is the middle layer between low-level providers and application code.
+
+| Layer | Responsibility | Why it should stay separate |
+| --- | --- | --- |
+| `core` | JSON, errors, spec, doctor helpers | No terminal semantics |
+| `provider-darwin` / `provider-win32` | Platform-specific automation primitives | Should stay close to AppleScript / PowerShell details |
+| `terminal-runtime` | Unified session model, provider registry, snapshot merge, target resolution, capability checks, open/send/focus/press orchestration | Prevents every app from reassembling providers and duplicating runtime logic |
+| `codex-runtime` | Codex-specific session workflows | Higher-level than raw terminal control |
+| application | product behavior | Should not know platform edge cases |
+
+If `terminal-runtime` did not exist, every app would need to:
+
+- choose the right provider for the current platform
+- merge provider snapshots into one stable model
+- resolve one exact target from selectors
+- check provider capabilities before mutating
+- orchestrate open/send/focus/press/capture across providers
+
+That is reusable runtime logic, not app logic, and not provider-specific logic either. That is why it is its own package.
 
 ## Capability Matrix
 
@@ -54,8 +76,8 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  A[Platform control] --> B[Codex session control]
-  B --> C[Product workflow]
+  A["Platform control"] --> B["Codex session control"]
+  B --> C["Product workflow"]
   A:::lib
   B:::lib
   C:::app
@@ -70,14 +92,20 @@ flowchart LR
 | JSON CLI contract helpers | Prompt policy |
 | Doctor and runtime capability reporting | Product-specific workflows |
 
+## Install
+
+```bash
+npm install @duo121/metacli
+```
+
 ## Quick Start
 
 ```bash
-npm install @duo121/metacli-core @duo121/metacli-terminal-runtime @duo121/metacli-provider-darwin
+node -e "import('@duo121/metacli/provider-darwin').then(console.log)"
 ```
 
 ```js
-import { createDarwinTerminalRuntime } from "@duo121/metacli-provider-darwin";
+import { createDarwinTerminalRuntime } from "@duo121/metacli/provider-darwin";
 
 const runtime = createDarwinTerminalRuntime();
 const target = await runtime.resolveTarget({
@@ -94,7 +122,7 @@ await runtime.sendText(target, "codex", { newline: true });
 | Command | Purpose |
 | --- | --- |
 | `npm test` | Smoke-check package imports |
-| `npm run pack:check` | Run `npm pack --dry-run` across publishable packages |
+| `npm run pack:check` | Run `npm pack --dry-run` for the single publishable package |
 
 ## Docs
 
@@ -103,4 +131,3 @@ await runtime.sendText(target, "codex", { newline: true });
 | [`docs/architecture.md`](./docs/architecture.md) | Package boundaries and ownership |
 | [`docs/migration-termhub.md`](./docs/migration-termhub.md) | How `termhub` maps into `metacli` |
 | [`docs/migration-weixin-agent.md`](./docs/migration-weixin-agent.md) | How `weixin-agent` consumes `metacli` |
-

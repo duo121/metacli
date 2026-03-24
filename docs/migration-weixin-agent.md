@@ -16,6 +16,6 @@
 
 ## Adoption sequence
 
-1. Replace local terminal primitives with `@duo121/metacli-terminal-runtime` plus providers.
-2. Replace Codex session helpers with `@duo121/metacli-codex-runtime`.
+1. Replace local terminal primitives with `@duo121/metacli/terminal-runtime` plus providers.
+2. Replace Codex session helpers with `@duo121/metacli/codex-runtime`.
 3. Keep `weixin-agent` command tree and domain flows local.

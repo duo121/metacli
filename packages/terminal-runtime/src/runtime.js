@@ -1,4 +1,4 @@
-import { CLIError } from "@duo121/metacli-core";
+import { CLIError } from "../../core/src/index.js";
 
 import {
   createProviderSnapshot,

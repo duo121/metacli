@@ -1,4 +1,4 @@
-import { CLIError } from "@duo121/metacli-core";
+import { CLIError } from "../../core/src/index.js";
 
 export const APP_ALIASES = Object.freeze({
   iterm2: "iterm2",

@@ -12,6 +12,6 @@
 
 ## Next migration steps
 
-1. Move CLI contract pieces from `termhub/src/cli.js` into `@duo121/metacli-core`.
-2. Rewrite `termhub` to consume `@duo121/metacli-terminal-runtime` and platform providers.
+1. Move CLI contract pieces from `termhub/src/cli.js` into `@duo121/metacli/core`.
+2. Rewrite `termhub` to consume `@duo121/metacli/terminal-runtime` and platform providers.
 3. Keep `termhub` command semantics in the app repo.

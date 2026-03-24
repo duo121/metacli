@@ -1,5 +1,5 @@
-import { CLIError } from "@duo121/metacli-core";
-import { createProviderSnapshot } from "@duo121/metacli-terminal-runtime";
+import { CLIError } from "../../core/src/index.js";
+import { createProviderSnapshot } from "../../terminal-runtime/src/index.js";
 import {
   buildPowerShellJsonCommand,
   getWin32ErrorMessage,

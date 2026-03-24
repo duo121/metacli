@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 
-import { CLIError } from "@duo121/metacli-core";
+import { CLIError } from "../../core/src/index.js";
 
 export function isWindows() {
   return process.platform === "win32";

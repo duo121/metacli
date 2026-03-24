@@ -1,23 +1,9 @@
-# @duo121/metacli-core
+# core
 
-Core JSON, error, CLI spec, and doctor helpers for AI-native CLIs.
+Internal module of `@duo121/metacli`.
 
-## Install
+Import it through:
 
-```bash
-npm install @duo121/metacli-core
+```js
+import { createCliSpec } from "@duo121/metacli/core";
 ```
-
-## Exports
-
-- `CLIError`
-- `toErrorPayload`
-- `createJsonText`
-- `writeJson`
-- `createCliSpec`
-- `createDoctorCheck`
-- `createDoctorReport`
-
-See the root project for architecture and package layering:
-https://github.com/duo121/metacli
-

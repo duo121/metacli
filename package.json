@@ -1,17 +1,49 @@
 {
-  "name": "metacli",
+  "name": "@duo121/metacli",
   "version": "0.1.0",
-  "private": true,
+  "description": "Reusable runtime and provider toolkit for building AI-native CLIs with stable machine contracts and terminal-backed automation.",
   "type": "module",
-  "workspaces": [
-    "packages/*"
+  "files": [
+    "src",
+    "packages",
+    "README.md",
+    "README.zh-CN.md",
+    "docs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duo121/metacli.git"
+  },
+  "homepage": "https://github.com/duo121/metacli#readme",
+  "bugs": {
+    "url": "https://github.com/duo121/metacli/issues"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "terminal",
+    "automation",
+    "codex"
   ],
   "scripts": {
     "smoke:imports": "node ./scripts/smoke-imports.mjs",
     "test": "npm run smoke:imports",
-    "pack:check": "node ./scripts/pack-check.mjs"
+    "pack:check": "npm pack --dry-run"
   },
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./core": "./packages/core/src/index.js",
+    "./terminal-runtime": "./packages/terminal-runtime/src/index.js",
+    "./provider-darwin": "./packages/provider-darwin/src/index.js",
+    "./provider-win32": "./packages/provider-win32/src/index.js",
+    "./codex-runtime": "./packages/codex-runtime/src/index.js",
+    "./create-metacli": "./packages/create-metacli/src/index.js",
+    "./package.json": "./package.json"
   }
 }

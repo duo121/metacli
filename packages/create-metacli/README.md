@@ -1,19 +1,9 @@
-# @duo121/create-metacli
+# create-metacli
 
-Starter manifest helper for bootstrapping metacli-based AI-native CLIs.
+Internal module of `@duo121/metacli`.
 
-## Install
+Import it through:
 
-```bash
-npm install @duo121/create-metacli
+```js
+import { createStarterManifest } from "@duo121/metacli/create-metacli";
 ```
-
-## Current scope
-
-- starter dependency manifest generation
-- package recommendation list
-- future entrypoint for a real scaffold command
-
-See the root project for full package layering:
-https://github.com/duo121/metacli
-

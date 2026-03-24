@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 
-import { CLIError } from "@duo121/metacli-core";
-import { createProviderSnapshot } from "@duo121/metacli-terminal-runtime";
+import { CLIError } from "../../core/src/index.js";
+import { createProviderSnapshot } from "../../terminal-runtime/src/index.js";
 
 export const PROVIDER = Object.freeze({
   app: "terminal",

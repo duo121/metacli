@@ -1,7 +1,7 @@
-import { createStarterManifest } from "@duo121/create-metacli";
-import { createDarwinTerminalRuntime, darwinProviders } from "@duo121/metacli-provider-darwin";
-import { createWin32TerminalRuntime, win32Providers } from "@duo121/metacli-provider-win32";
-import { createJsonText } from "@duo121/metacli-core";
+import { createStarterManifest } from "@duo121/metacli/create-metacli";
+import { createDarwinTerminalRuntime, darwinProviders } from "@duo121/metacli/provider-darwin";
+import { createWin32TerminalRuntime, win32Providers } from "@duo121/metacli/provider-win32";
+import { createJsonText } from "@duo121/metacli/core";
 
 const darwinRuntime = createDarwinTerminalRuntime();
 const win32Runtime = createWin32TerminalRuntime();

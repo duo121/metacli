@@ -1,4 +1,4 @@
-import { createTerminalRuntime } from "@duo121/metacli-terminal-runtime";
+import { createTerminalRuntime } from "../../terminal-runtime/src/index.js";
 
 import * as cmdProvider from "./cmd.js";
 import { getWin32FrontmostApp } from "./frontmost.js";

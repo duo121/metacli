@@ -4,19 +4,19 @@
 
 ## Layering
 
-1. `@duo121/metacli-core`
+1. `@duo121/metacli/core`
 Shared error and JSON helpers.
 
-2. `@duo121/metacli-terminal-runtime`
+2. `@duo121/metacli/terminal-runtime`
 Provider registry, snapshot merge, target resolution, and runtime orchestration.
 
-3. `@duo121/metacli-provider-darwin`
+3. `@duo121/metacli/provider-darwin`
 macOS terminal providers extracted from `termhub`.
 
-4. `@duo121/metacli-provider-win32`
+4. `@duo121/metacli/provider-win32`
 Windows terminal providers extracted from `termhub`.
 
-5. `@duo121/metacli-codex-runtime`
+5. `@duo121/metacli/codex-runtime`
 Codex-session helpers on top of terminal runtime.
 
 6. Application projects

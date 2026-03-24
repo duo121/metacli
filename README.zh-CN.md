@@ -18,24 +18,46 @@
 
 ```mermaid
 flowchart TD
-  A[应用 CLI<br/>weixin-agent / 未来 AI 工具] --> B[@duo121/metacli-codex-runtime]
-  A --> C[@duo121/metacli-terminal-runtime]
+  A["应用 CLI<br/>weixin-agent / 未来 AI 工具"] --> B["codex-runtime"]
+  A --> C["terminal-runtime"]
   B --> C
-  C --> D[@duo121/metacli-provider-darwin]
-  C --> E[@duo121/metacli-provider-win32]
-  C --> F[@duo121/metacli-core]
+  C --> D["provider-darwin"]
+  C --> E["provider-win32"]
+  C --> F["core"]
 ```
 
-## 包结构
+## 模块结构
 
-| 包目录 | 作用 | npm 发布名 |
+| 源码模块 | 作用 | 导入路径 |
 | --- | --- | --- |
-| `packages/core` | JSON 辅助、错误模型、CLI spec/doctor helper | `@duo121/metacli-core` |
-| `packages/terminal-runtime` | provider 注册、snapshot、target resolve、运行时编排 | `@duo121/metacli-terminal-runtime` |
-| `packages/provider-darwin` | Apple Terminal / iTerm2 自动化 | `@duo121/metacli-provider-darwin` |
-| `packages/provider-win32` | Windows Terminal / Command Prompt 自动化 | `@duo121/metacli-provider-win32` |
-| `packages/codex-runtime` | Codex 会话 attach / launch / prompt / capture | `@duo121/metacli-codex-runtime` |
-| `packages/create-metacli` | 当前提供 starter manifest，后续可扩成脚手架 | `@duo121/create-metacli` |
+| `packages/core` | JSON 辅助、错误模型、CLI spec/doctor helper | `@duo121/metacli/core` |
+| `packages/terminal-runtime` | provider 注册、snapshot、target resolve、运行时编排 | `@duo121/metacli/terminal-runtime` |
+| `packages/provider-darwin` | Apple Terminal / iTerm2 自动化 | `@duo121/metacli/provider-darwin` |
+| `packages/provider-win32` | Windows Terminal / Command Prompt 自动化 | `@duo121/metacli/provider-win32` |
+| `packages/codex-runtime` | Codex 会话 attach / launch / prompt / capture | `@duo121/metacli/codex-runtime` |
+| `packages/create-metacli` | 当前提供 starter manifest，后续可扩成脚手架 | `@duo121/metacli/create-metacli` |
+
+## 为什么要有 `terminal-runtime`
+
+`@duo121/metacli/terminal-runtime` 不是“多出来的一层产品包”，而是夹在 provider 和应用之间的运行时层。
+
+| 层 | 职责 | 为什么要独立出来 |
+| --- | --- | --- |
+| `core` | JSON、错误模型、spec、doctor helper | 不应该带 terminal 语义 |
+| `provider-darwin` / `provider-win32` | 平台相关自动化 primitive | 应该贴近 AppleScript / PowerShell 细节 |
+| `terminal-runtime` | 统一 session 模型、provider registry、snapshot merge、target resolve、capability check、open/send/focus/press 编排 | 避免每个应用都自己拼装 provider 和重复运行时逻辑 |
+| `codex-runtime` | Codex 会话级流程 | 比原始 terminal control 更高一层 |
+| 应用层 | 产品行为 | 不应该知道平台边角细节 |
+
+如果没有 `terminal-runtime`，每个应用都得自己重复做这些事：
+
+- 根据当前平台挑 provider
+- 把多个 provider 的 snapshot 合成统一模型
+- 从 selectors 里 resolve 出唯一 target
+- 在 mutating action 前检查 capability
+- 在不同 provider 之间统一 open/send/focus/press/capture 的调用方式
+
+这部分明显是可复用运行时，不属于业务层，也不属于单个 provider，所以单独拆成一个包是合理的。
 
 ## 能力矩阵
 
@@ -54,8 +76,8 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  A[平台能力] --> B[Codex 会话控制]
-  B --> C[产品业务流程]
+  A["平台能力"] --> B["Codex 会话控制"]
+  B --> C["产品业务流程"]
   A:::lib
   B:::lib
   C:::app
@@ -70,14 +92,20 @@ flowchart LR
 | JSON CLI contract helper | prompt 策略 |
 | doctor 与 capability 报告 | 产品工作流 |
 
+## 安装
+
+```bash
+npm install @duo121/metacli
+```
+
 ## 快速开始
 
 ```bash
-npm install @duo121/metacli-core @duo121/metacli-terminal-runtime @duo121/metacli-provider-darwin
+node -e "import('@duo121/metacli/provider-darwin').then(console.log)"
 ```
 
 ```js
-import { createDarwinTerminalRuntime } from "@duo121/metacli-provider-darwin";
+import { createDarwinTerminalRuntime } from "@duo121/metacli/provider-darwin";
 
 const runtime = createDarwinTerminalRuntime();
 const target = await runtime.resolveTarget({
@@ -94,7 +122,7 @@ await runtime.sendText(target, "codex", { newline: true });
 | 命令 | 用途 |
 | --- | --- |
 | `npm test` | 基础 import smoke test |
-| `npm run pack:check` | 对每个包执行 `npm pack --dry-run` |
+| `npm run pack:check` | 对单一发布包执行 `npm pack --dry-run` |
 
 ## 文档
 
@@ -103,4 +131,3 @@ await runtime.sendText(target, "codex", { newline: true });
 | [`docs/architecture.md`](./docs/architecture.md) | 包边界与职责划分 |
 | [`docs/migration-termhub.md`](./docs/migration-termhub.md) | `termhub` 到 `metacli` 的抽取映射 |
 | [`docs/migration-weixin-agent.md`](./docs/migration-weixin-agent.md) | `weixin-agent` 如何接入 `metacli` |
-
