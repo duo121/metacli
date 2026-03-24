@@ -1,4 +1,4 @@
-import { CLIError } from "../../core/src/index.js";
+import { CLIError } from "../core/index.js";
 
 export const APP_ALIASES = Object.freeze({
   iterm2: "iterm2",

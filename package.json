@@ -1,11 +1,10 @@
 {
   "name": "@duo121/metacli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reusable runtime and provider toolkit for building AI-native CLIs with stable machine contracts and terminal-backed automation.",
   "type": "module",
   "files": [
     "src",
-    "packages",
     "README.md",
     "README.zh-CN.md",
     "docs"
@@ -27,7 +26,7 @@
   ],
   "scripts": {
     "smoke:imports": "node ./scripts/smoke-imports.mjs",
-    "test": "npm run smoke:imports",
+    "test": "node --test",
     "pack:check": "npm pack --dry-run"
   },
   "engines": {
@@ -38,12 +37,12 @@
   },
   "exports": {
     ".": "./src/index.js",
-    "./core": "./packages/core/src/index.js",
-    "./terminal-runtime": "./packages/terminal-runtime/src/index.js",
-    "./provider-darwin": "./packages/provider-darwin/src/index.js",
-    "./provider-win32": "./packages/provider-win32/src/index.js",
-    "./codex-runtime": "./packages/codex-runtime/src/index.js",
-    "./create-metacli": "./packages/create-metacli/src/index.js",
+    "./core": "./src/core/index.js",
+    "./terminal-runtime": "./src/terminal-runtime/index.js",
+    "./provider-darwin": "./src/provider-darwin/index.js",
+    "./provider-win32": "./src/provider-win32/index.js",
+    "./codex-runtime": "./src/codex-runtime/index.js",
+    "./create-metacli": "./src/create-metacli/index.js",
     "./package.json": "./package.json"
   }
 }

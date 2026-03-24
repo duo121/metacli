@@ -1,4 +1,4 @@
-import { createTerminalRuntime } from "../../terminal-runtime/src/index.js";
+import { createTerminalRuntime } from "../terminal-runtime/index.js";
 
 import { getDarwinFrontmostApp } from "./frontmost.js";
 import * as iterm2Provider from "./iterm2.js";

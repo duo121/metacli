@@ -2,6 +2,8 @@
 
 `metacli` is a reusable runtime for AI-native command-line tools that need stable machine contracts and terminal-backed execution primitives.
 
+It is published as a single npm package with subpath exports. Internal modules live under `src/*`.
+
 ## Layering
 
 1. `@duo121/metacli/core`

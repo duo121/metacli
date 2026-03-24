@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 
-import { CLIError } from "../../core/src/index.js";
-import { createProviderSnapshot } from "../../terminal-runtime/src/index.js";
+import { CLIError } from "../core/index.js";
+import { createProviderSnapshot } from "../terminal-runtime/index.js";
 
 export const PROVIDER = Object.freeze({
   app: "iterm2",

@@ -1,4 +1,4 @@
-import { CLIError } from "../../core/src/index.js";
+import { CLIError } from "../core/index.js";
 
 import {
   createProviderSnapshot,

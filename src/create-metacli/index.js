@@ -9,7 +9,7 @@ export function createStarterManifest({
   }
 
   const dependencies = {
-    "@duo121/metacli": "^0.1.0",
+    "@duo121/metacli": "^0.1.1",
   };
 
   return {

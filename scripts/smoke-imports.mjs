@@ -14,7 +14,7 @@ process.stdout.write(
   createJsonText(
     {
       ok: true,
-      packages: {
+      modules: {
         darwinProviders: darwinProviders.map((provider) => provider.PROVIDER.app),
         win32Providers: win32Providers.map((provider) => provider.PROVIDER.app),
       },

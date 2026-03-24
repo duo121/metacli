@@ -11,31 +11,33 @@ When an AI CLI grows past a single script, three problems show up fast:
 | Problem | Typical failure mode | metacli approach |
 | --- | --- | --- |
 | CLI contract drifts | Humans can use it, agents cannot rely on it | `core` provides JSON/error/spec/doctor helpers |
-| Terminal automation gets duplicated | Every app copies AppleScript / PowerShell edge cases | `provider-*` packages centralize platform primitives |
+| Terminal automation gets duplicated | Every app copies AppleScript / PowerShell edge cases | `provider-*` modules centralize platform primitives |
 | App logic and environment control get mixed together | Product workflow becomes coupled to terminal semantics | `terminal-runtime` and `codex-runtime` separate runtime from business logic |
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-  A["Application CLI<br/>weixin-agent / future AI tools"] --> B["codex-runtime"]
-  A --> C["terminal-runtime"]
-  B --> C
-  C --> D["provider-darwin"]
-  C --> E["provider-win32"]
-  C --> F["core"]
+  app["Application CLI: weixin-agent and future AI tools"] --> codex["codex-runtime"]
+  app --> runtime["terminal-runtime"]
+  codex --> runtime
+  runtime --> darwin["provider-darwin"]
+  runtime --> win32["provider-win32"]
+  runtime --> core["core"]
 ```
 
 ## Module Layout
 
 | Source module | Purpose | Import path |
 | --- | --- | --- |
-| `packages/core` | JSON helpers, error model, CLI spec and doctor helpers | `@duo121/metacli/core` |
-| `packages/terminal-runtime` | Provider registry, snapshots, target resolution, runtime orchestration | `@duo121/metacli/terminal-runtime` |
-| `packages/provider-darwin` | Apple Terminal and iTerm2 automation | `@duo121/metacli/provider-darwin` |
-| `packages/provider-win32` | Windows Terminal and Command Prompt automation | `@duo121/metacli/provider-win32` |
-| `packages/codex-runtime` | Codex session attach / launch / prompt / capture helpers | `@duo121/metacli/codex-runtime` |
-| `packages/create-metacli` | Starter manifest today, scaffold entrypoint later | `@duo121/metacli/create-metacli` |
+| `src/core` | JSON helpers, error model, CLI spec and doctor helpers | `@duo121/metacli/core` |
+| `src/terminal-runtime` | Provider registry, snapshots, target resolution, runtime orchestration | `@duo121/metacli/terminal-runtime` |
+| `src/provider-darwin` | Apple Terminal and iTerm2 automation | `@duo121/metacli/provider-darwin` |
+| `src/provider-win32` | Windows Terminal and Command Prompt automation | `@duo121/metacli/provider-win32` |
+| `src/codex-runtime` | Codex session attach / launch / prompt / capture helpers | `@duo121/metacli/codex-runtime` |
+| `src/create-metacli` | Starter manifest today, scaffold entrypoint later | `@duo121/metacli/create-metacli` |
+
+`metacli` is published as one npm package. These are internal source modules exposed through subpath exports, not separately published packages.
 
 ## Why `terminal-runtime` Exists
 
@@ -57,7 +59,7 @@ If `terminal-runtime` did not exist, every app would need to:
 - check provider capabilities before mutating
 - orchestrate open/send/focus/press/capture across providers
 
-That is reusable runtime logic, not app logic, and not provider-specific logic either. That is why it is its own package.
+That is reusable runtime logic, not app logic, and not provider-specific logic either. That is why it is its own exported runtime module inside the package.
 
 ## Capability Matrix
 
@@ -76,11 +78,11 @@ That is reusable runtime logic, not app logic, and not provider-specific logic e
 
 ```mermaid
 flowchart LR
-  A["Platform control"] --> B["Codex session control"]
-  B --> C["Product workflow"]
-  A:::lib
-  B:::lib
-  C:::app
+  platform["Platform control"] --> codex["Codex session control"]
+  codex --> product["Product workflow"]
+  platform:::lib
+  codex:::lib
+  product:::app
   classDef lib fill:#e8f2ff,stroke:#2d5baf,color:#10233f;
   classDef app fill:#eef8e7,stroke:#457a2f,color:#183010;
 ```
@@ -121,7 +123,7 @@ await runtime.sendText(target, "codex", { newline: true });
 
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Smoke-check package imports |
+| `npm test` | Run integration coverage for exports, runtime, codex helpers, and starter manifest |
 | `npm run pack:check` | Run `npm pack --dry-run` for the single publishable package |
 
 ## Docs

@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 
-import { CLIError } from "../../core/src/index.js";
+import { CLIError } from "../core/index.js";
 
 export function isWindows() {
   return process.platform === "win32";

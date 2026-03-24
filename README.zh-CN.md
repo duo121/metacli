@@ -11,31 +11,33 @@
 | 问题 | 常见失效方式 | metacli 的处理方式 |
 | --- | --- | --- |
 | CLI 契约不稳定 | 人能用，智能体不能可靠调用 | `core` 统一 JSON / error / spec / doctor |
-| 终端自动化被重复实现 | 每个项目都复制 AppleScript / PowerShell 边角逻辑 | `provider-*` 集中维护平台能力 |
+| 终端自动化被重复实现 | 每个项目都复制 AppleScript / PowerShell 边角逻辑 | `provider-*` 模块集中维护平台能力 |
 | 业务流程和环境控制混在一起 | 产品语义绑死在 terminal 细节上 | `terminal-runtime` / `codex-runtime` 明确分层 |
 
 ## 架构图
 
 ```mermaid
 flowchart TD
-  A["应用 CLI<br/>weixin-agent / 未来 AI 工具"] --> B["codex-runtime"]
-  A --> C["terminal-runtime"]
-  B --> C
-  C --> D["provider-darwin"]
-  C --> E["provider-win32"]
-  C --> F["core"]
+  app["应用 CLI：weixin-agent 与未来 AI 工具"] --> codex["codex-runtime"]
+  app --> runtime["terminal-runtime"]
+  codex --> runtime
+  runtime --> darwin["provider-darwin"]
+  runtime --> win32["provider-win32"]
+  runtime --> core["core"]
 ```
 
 ## 模块结构
 
 | 源码模块 | 作用 | 导入路径 |
 | --- | --- | --- |
-| `packages/core` | JSON 辅助、错误模型、CLI spec/doctor helper | `@duo121/metacli/core` |
-| `packages/terminal-runtime` | provider 注册、snapshot、target resolve、运行时编排 | `@duo121/metacli/terminal-runtime` |
-| `packages/provider-darwin` | Apple Terminal / iTerm2 自动化 | `@duo121/metacli/provider-darwin` |
-| `packages/provider-win32` | Windows Terminal / Command Prompt 自动化 | `@duo121/metacli/provider-win32` |
-| `packages/codex-runtime` | Codex 会话 attach / launch / prompt / capture | `@duo121/metacli/codex-runtime` |
-| `packages/create-metacli` | 当前提供 starter manifest，后续可扩成脚手架 | `@duo121/metacli/create-metacli` |
+| `src/core` | JSON 辅助、错误模型、CLI spec/doctor helper | `@duo121/metacli/core` |
+| `src/terminal-runtime` | provider 注册、snapshot、target resolve、运行时编排 | `@duo121/metacli/terminal-runtime` |
+| `src/provider-darwin` | Apple Terminal / iTerm2 自动化 | `@duo121/metacli/provider-darwin` |
+| `src/provider-win32` | Windows Terminal / Command Prompt 自动化 | `@duo121/metacli/provider-win32` |
+| `src/codex-runtime` | Codex 会话 attach / launch / prompt / capture | `@duo121/metacli/codex-runtime` |
+| `src/create-metacli` | 当前提供 starter manifest，后续可扩成脚手架 | `@duo121/metacli/create-metacli` |
+
+`metacli` 只发布一个 npm 包。上面这些是包内源码模块，通过 subpath exports 暴露，不是独立发布的子包。
 
 ## 为什么要有 `terminal-runtime`
 
@@ -57,7 +59,7 @@ flowchart TD
 - 在 mutating action 前检查 capability
 - 在不同 provider 之间统一 open/send/focus/press/capture 的调用方式
 
-这部分明显是可复用运行时，不属于业务层，也不属于单个 provider，所以单独拆成一个包是合理的。
+这部分明显是可复用运行时，不属于业务层，也不属于单个 provider，所以单独作为包内导出模块是合理的。
 
 ## 能力矩阵
 
@@ -76,11 +78,11 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  A["平台能力"] --> B["Codex 会话控制"]
-  B --> C["产品业务流程"]
-  A:::lib
-  B:::lib
-  C:::app
+  platform["平台能力"] --> codex["Codex 会话控制"]
+  codex --> product["产品业务流程"]
+  platform:::lib
+  codex:::lib
+  product:::app
   classDef lib fill:#e8f2ff,stroke:#2d5baf,color:#10233f;
   classDef app fill:#eef8e7,stroke:#457a2f,color:#183010;
 ```
@@ -121,7 +123,7 @@ await runtime.sendText(target, "codex", { newline: true });
 
 | 命令 | 用途 |
 | --- | --- |
-| `npm test` | 基础 import smoke test |
+| `npm test` | 运行导出、runtime、codex helper、starter manifest 的集成测试 |
 | `npm run pack:check` | 对单一发布包执行 `npm pack --dry-run` |
 
 ## 文档

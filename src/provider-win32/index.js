@@ -1,4 +1,4 @@
-import { createTerminalRuntime } from "../../terminal-runtime/src/index.js";
+import { createTerminalRuntime } from "../terminal-runtime/index.js";
 
 import * as cmdProvider from "./cmd.js";
 import { getWin32FrontmostApp } from "./frontmost.js";

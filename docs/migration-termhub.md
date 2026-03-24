@@ -2,13 +2,13 @@
 
 ## Extracted now
 
-- `src/errors.js` -> `packages/core/src/errors.js`
-- `src/snapshot.js` -> `packages/terminal-runtime/src/snapshot.js`
-- `src/terminal.js` -> `packages/provider-darwin/src/terminal.js`
-- `src/iterm2.js` -> `packages/provider-darwin/src/iterm2.js`
-- `src/win32.js` -> `packages/provider-win32/src/win32.js`
-- `src/windows-terminal.js` -> `packages/provider-win32/src/windows-terminal.js`
-- `src/cmd.js` -> `packages/provider-win32/src/cmd.js`
+- `src/errors.js` -> `src/core/errors.js`
+- `src/snapshot.js` -> `src/terminal-runtime/snapshot.js`
+- `src/terminal.js` -> `src/provider-darwin/terminal.js`
+- `src/iterm2.js` -> `src/provider-darwin/iterm2.js`
+- `src/win32.js` -> `src/provider-win32/win32.js`
+- `src/windows-terminal.js` -> `src/provider-win32/windows-terminal.js`
+- `src/cmd.js` -> `src/provider-win32/cmd.js`
 
 ## Next migration steps
 
