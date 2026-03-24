@@ -74,26 +74,6 @@ That is reusable runtime logic, not app logic, and not provider-specific logic e
 | Open new window/tab | Yes | Partial | Windows open is not shipped yet |
 | Close target | Yes | Yes | Tab on Terminal/iTerm2 and Windows Terminal, window on `cmd` |
 
-## Recommended Layering
-
-```mermaid
-flowchart LR
-  platform["Platform control"] --> codex["Codex session control"]
-  codex --> product["Product workflow"]
-  platform:::lib
-  codex:::lib
-  product:::app
-  classDef lib fill:#e8f2ff,stroke:#2d5baf,color:#10233f;
-  classDef app fill:#eef8e7,stroke:#457a2f,color:#183010;
-```
-
-| Put it in `metacli` | Keep it in the app |
-| --- | --- |
-| Terminal snapshot/resolve/open/send/focus/press/capture | Business commands |
-| Codex session attach/launch/submit/capture | Domain routing and persistence |
-| JSON CLI contract helpers | Prompt policy |
-| Doctor and runtime capability reporting | Product-specific workflows |
-
 ## Install
 
 ```bash
@@ -101,10 +81,6 @@ npm install @duo121/metacli
 ```
 
 ## Quick Start
-
-```bash
-node -e "import('@duo121/metacli/provider-darwin').then(console.log)"
-```
 
 ```js
 import { createDarwinTerminalRuntime } from "@duo121/metacli/provider-darwin";

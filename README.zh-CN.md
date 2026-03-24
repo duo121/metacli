@@ -74,26 +74,6 @@ flowchart TD
 | open new window/tab | 支持 | 部分支持 | Windows 新开窗口/标签仍待补完 |
 | close target | 支持 | 支持 | `cmd` 为窗口级关闭 |
 
-## 推荐分层
-
-```mermaid
-flowchart LR
-  platform["平台能力"] --> codex["Codex 会话控制"]
-  codex --> product["产品业务流程"]
-  platform:::lib
-  codex:::lib
-  product:::app
-  classDef lib fill:#e8f2ff,stroke:#2d5baf,color:#10233f;
-  classDef app fill:#eef8e7,stroke:#457a2f,color:#183010;
-```
-
-| 放进 `metacli` | 留在应用里 |
-| --- | --- |
-| terminal snapshot / resolve / open / send / focus / press / capture | 业务命令树 |
-| Codex session attach / launch / submit / capture | 领域状态和路由 |
-| JSON CLI contract helper | prompt 策略 |
-| doctor 与 capability 报告 | 产品工作流 |
-
 ## 安装
 
 ```bash
@@ -101,10 +81,6 @@ npm install @duo121/metacli
 ```
 
 ## 快速开始
-
-```bash
-node -e "import('@duo121/metacli/provider-darwin').then(console.log)"
-```
 
 ```js
 import { createDarwinTerminalRuntime } from "@duo121/metacli/provider-darwin";
